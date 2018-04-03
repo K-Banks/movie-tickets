@@ -50,6 +50,7 @@ $(document).ready(function() {
     var newTicketTotal = ticketTotal.toFixed(2);
     ticketPrice = ticketPrice.toFixed(2);
 
+    $("#evening").text(ticketInfo[2]);
     $("#output").append("<li>$" + ticketPrice + "<p>" + newTicket.movie + ", "+ newTicket.time + ", "+ticketInfo[0]+"</p></li>");
     $("#totalOutput").text("$" + newTicketTotal);
   });
