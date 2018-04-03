@@ -1,3 +1,5 @@
+var ticketTotal = 0;
+
 function Ticket(movie, time, age) {
   this.movie = movie;
   this.time = time;
@@ -30,12 +32,13 @@ $(document).ready(function() {
     var movie = $("select#movie").val();
     var time = $("input:radio[name=time]:checked").val();
     var age = parseInt($("input#age").val());
-
     var newTicket = new Ticket(movie, time, age);
     var ticketPrice = newTicket.Price();
+    ticketTotal += ticketPrice;
+    var newTicketTotal = ticketTotal.toFixed(2);
     ticketPrice = ticketPrice.toFixed(2);
-    // var newPrice = Math.round(ticketPrice*100.0)/100.0;
 
-    $("#output").prepend("<li>$" + ticketPrice + "</li>");
+    $("#output").append("<li>$" + ticketPrice + "<p>" + newTicket.movie + ", "+ newTicket.time + ", "+newTicket.age+"</p></li>");
+    $("#totalOutput").text("$" + newTicketTotal);
   });
 });
