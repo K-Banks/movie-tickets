@@ -8,22 +8,31 @@ function Ticket(movie, time, age) {
 
 Ticket.prototype.Price = function() {
   var priceReturn = 0;
-  if (this.movie === "SAW") {
+  var ticketDetail = [];
+  if (this.movie === "B-SAW") {
     priceReturn += 2;
-  } else if (this.movie === "rdyp1") {
+  } else if (this.movie === "ReadyP2") {
     priceReturn += 8;
-  } else if (this.movie === "Scott") {
+  } else if (this.movie === "ScottVsUni") {
     priceReturn += 5;
-  }
-  if (this.time === "2:15") {
-    priceReturn -= 0.5;
   }
   if (this.age <= 12) {
     priceReturn = priceReturn * 0.90;
+    ticketDetail.push("Child");
   } else if (this.age >=65) {
     priceReturn = priceReturn * 0.75;
+    ticketDetail.push("Senior");
+  } else {
+    ticketDetail.push("Adult");
   }
-  return  priceReturn
+  if (this.time === "2:15") {
+    priceReturn -= 0.5;
+    ticketDetail.push(priceReturn);
+    ticketDetail.push("Matinee");
+  } else {
+    ticketDetail.push(priceReturn)
+  }
+  return ticketDetail;
 }
 
 $(document).ready(function() {
@@ -33,12 +42,15 @@ $(document).ready(function() {
     var time = $("input:radio[name=time]:checked").val();
     var age = parseInt($("input#age").val());
     var newTicket = new Ticket(movie, time, age);
-    var ticketPrice = newTicket.Price();
+    var ticketInfo = newTicket.Price();
+
+    var ticketPrice = parseFloat(ticketInfo[1]);
     ticketTotal += ticketPrice;
+    console.log(ticketTotal);
     var newTicketTotal = ticketTotal.toFixed(2);
     ticketPrice = ticketPrice.toFixed(2);
 
-    $("#output").append("<li>$" + ticketPrice + "<p>" + newTicket.movie + ", "+ newTicket.time + ", "+newTicket.age+"</p></li>");
+    $("#output").append("<li>$" + ticketPrice + "<p>" + newTicket.movie + ", "+ newTicket.time + ", "+ticketInfo[0]+"</p></li>");
     $("#totalOutput").text("$" + newTicketTotal);
   });
 });
